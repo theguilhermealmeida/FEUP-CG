@@ -1,10 +1,10 @@
 # CG 2022/2023
 
-## Group T0xG0y
+## Group T06G09
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| André Barbosa         | 202007398 | up202007398@edu.fe.up.pt |
+| Guilherme Almeida         | 202008866 | up202008866@edu.fe.up.pt |
 
 ----
 
