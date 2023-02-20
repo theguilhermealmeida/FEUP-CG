@@ -20,9 +20,14 @@ export class MyInterface extends CGFinterface {
         //Checkbox element in GUI
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
 
-        //Slider element in GUI
-        this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
+        this.gui.add(this.scene,'viewDiamond').name('View Diamond');
 
+        this.gui.add(this.scene,'viewTriangle').name('View Triangle');
+
+        this.gui.add(this.scene,'viewParallelogram').name('View Parallelo');
+
+        //Slider element in GUI
+        this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor')
         return true;
     }
 }
