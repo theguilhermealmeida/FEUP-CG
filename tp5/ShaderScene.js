@@ -25,9 +25,9 @@ export class ShaderScene extends CGFscene {
 		this.appearance = null;
 
 		// initial configuration of interface
-		this.selectedObject = 0;
+		this.selectedObject = 1;
 		this.wireframe = false;
-		this.selectedExampleShader = 0;
+		this.selectedExampleShader = 11;
 		this.showShaderCode = false;
 
 		this.scaleFactor = 16.0;
@@ -102,6 +102,7 @@ export class ShaderScene extends CGFscene {
 		this.testShaders[11].setUniformsValues({ uSampler : 1});
 		this.testShaders[6].setUniformsValues({ timeFactor: 0 });
 		this.testShaders[9].setUniformsValues({ timeFactor: 0 });
+		this.testShaders[11].setUniformsValues({timeFactor: 0});
 
 
 		// Shaders interface variables
@@ -201,6 +202,8 @@ export class ShaderScene extends CGFscene {
 		// only shader 6 is using time factor
 		if (this.selectedExampleShader == 9)
 			this.testShaders[9].setUniformsValues({ timeFactor: t / 100 % 100 });
+		if (this.selectedExampleShader == 11)
+			this.testShaders[11].setUniformsValues({ timeFactor: t / 10000 % 100});
 		if (this.selectedExampleShader == 6)
 			// Dividing the time by 100 "slows down" the variation (i.e. in 100 ms timeFactor increases 1 unit).
 			// Doing the modulus (%) by 100 makes the timeFactor loop between 0 and 99
