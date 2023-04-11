@@ -1,5 +1,6 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
+import { MySphere } from "./MySphere.js";
 
 /**
  * MyScene
@@ -26,10 +27,16 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
+    this.sphere = new MySphere(this,30,30);
 
+    this.objects = [this.plane, this.sphere];
+    this.objectIDs = { 'Plane': 0 , 'Sphere': 1};   
+    
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
+    this.displayPlane = true;
+    this.displaySphere = false;
 
     this.enableTextures(true);
 
@@ -38,9 +45,19 @@ this.appearance = new CGFappearance(this);
 this.appearance.setTexture(this.texture);
 this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
+
+  this.sphereMaterial = new CGFappearance(this);
+  this.sphereMaterial.setAmbient(0.9, 0.9, 0.9, 1);
+  this.sphereMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+  this.sphereMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+  this.sphereMaterial.setShininess(10.0);
+  this.sphereMaterial.loadTexture('images/earth.jpg');
+  this.sphereMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
   }
   initLights() {
-    this.lights[0].setPosition(15, 0, 5, 1);
+    this.lights[0].setPosition(5, 5, 5, 1);
+    this.lights[0].setAmbient(0.3, 0.3, 0.3, 1.0);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].enable();
     this.lights[0].update();
@@ -75,14 +92,22 @@ this.appearance.setTextureWrap('REPEAT', 'REPEAT');
     if (this.displayAxis) this.axis.display();
 
     // ---- BEGIN Primitive drawing section
+    if (this.displayPlane){
+      this.pushMatrix();
+      this.appearance.apply();
+      this.translate(0,-100,0);
+      this.scale(400,400,400);
+      this.rotate(-Math.PI/2.0,1,0,0);
+      this.plane.display();
+      this.popMatrix();
+    }
 
-    this.pushMatrix();
-    this.appearance.apply();
-    this.translate(0,-100,0);
-    this.scale(400,400,400);
-    this.rotate(-Math.PI/2.0,1,0,0);
-    this.plane.display();
-    this.popMatrix();
+    if (this.displaySphere) {
+      this.sphereMaterial.apply();
+      this.sphere.display();
+    }
+
+
 
     // ---- END Primitive drawing section
   }
