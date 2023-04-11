@@ -1,6 +1,6 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
-import { MySphere } from "./MySphere.js";
+import { MyPanorama} from "./MyPanorama.js";
 
 /**
  * MyScene
@@ -27,9 +27,10 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
-    this.sphere = new MySphere(this,30,30);
 
-    this.objects = [this.plane, this.sphere];
+
+
+    this.objects = [this.plane, this.panorama];
     this.objectIDs = { 'Plane': 0 , 'Sphere': 1};   
     
     //Objects connected to MyInterface
@@ -40,24 +41,20 @@ export class MyScene extends CGFscene {
 
     this.enableTextures(true);
 
-this.texture = new CGFtexture(this, "images/terrain.jpg");
-this.appearance = new CGFappearance(this);
-this.appearance.setTexture(this.texture);
-this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+    this.texturePan = new CGFtexture(this, "images/panorama4.jpg");
+    this.panorama = new MyPanorama(this, this.texturePan);
+
+    this.texture = new CGFtexture(this, "images/terrain.jpg");
+    this.appearance = new CGFappearance(this);
+    this.appearance.setTexture(this.texture);
+    this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
 
-  this.sphereMaterial = new CGFappearance(this);
-  this.sphereMaterial.setAmbient(0.9, 0.9, 0.9, 1);
-  this.sphereMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
-  this.sphereMaterial.setSpecular(0.1, 0.1, 0.1, 1);
-  this.sphereMaterial.setShininess(10.0);
-  this.sphereMaterial.loadTexture('images/earth.jpg');
-  this.sphereMaterial.setTextureWrap('REPEAT', 'REPEAT');
-
+  
   }
   initLights() {
     this.lights[0].setPosition(5, 5, 5, 1);
-    this.lights[0].setAmbient(0.3, 0.3, 0.3, 1.0);
+    this.lights[0].setAmbient(0.7, 0.7, 0.7, 1.0);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].enable();
     this.lights[0].update();
@@ -103,8 +100,8 @@ this.appearance.setTextureWrap('REPEAT', 'REPEAT');
     }
 
     if (this.displaySphere) {
-      this.sphereMaterial.apply();
-      this.sphere.display();
+      // this.sphereMaterial.apply();
+      this.panorama.display();
     }
 
 
