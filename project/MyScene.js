@@ -30,6 +30,7 @@ export class MyScene extends CGFscene {
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
+    this.speedFactor = 1;
 
     this.enableTextures(true);
 
@@ -37,6 +38,11 @@ this.texture = new CGFtexture(this, "images/terrain.jpg");
 this.appearance = new CGFappearance(this);
 this.appearance.setTexture(this.texture);
 this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+
+    this.testShaders
+    this.setUpdatePeriod(30);
+    
+
 
   }
   initLights() {
@@ -59,6 +65,9 @@ this.appearance.setTextureWrap('REPEAT', 'REPEAT');
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
+  }
+  update(t){
+    this.checkKeys();
   }
   display() {
     // ---- BEGIN Background, camera and axis setup
@@ -85,5 +94,32 @@ this.appearance.setTextureWrap('REPEAT', 'REPEAT');
     this.popMatrix();
 
     // ---- END Primitive drawing section
+  }
+  checkKeys(){
+    var text="Keys pressed: ";
+    var keysPressed=false;
+
+    if(this.gui.isKeyPressed("KeyW")){
+      text+= " W ";
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyS")) {
+      text+=" S ";
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyA")) {
+      text+=" A ";
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyD")) {
+      text+=" D ";
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyR")) {
+      text+=" R ";
+      keysPressed=true;
+    }
+    if (keysPressed)
+      console.log(text);
   }
 }
