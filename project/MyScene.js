@@ -101,6 +101,9 @@ export class MyScene extends CGFscene {
     this.red.setTexture(this.redt);
 
     this.feather = new CGFappearance(this);
+    this.feather.setAmbient(0.4, 0.4, 0.4, 1);
+    this.feather.setDiffuse(0.6, 0.6, 0.6, 1);
+    this.feather.setSpecular(0.1, 0.1, 0.1, 1);
     this.featherT = new CGFtexture(this, "images/feather2.png");
     this.feather.setTexture(this.featherT);
     
@@ -211,7 +214,10 @@ export class MyScene extends CGFscene {
     }
      
     if (this.displayBird) {
+      this.pushMatrix();
+      this.translate(0,5,0);
       this.bird.display();
+      this.popMatrix();
     }
 
     if (this.displaySphere) {
