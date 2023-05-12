@@ -36,6 +36,8 @@ export class MyBirdBody extends CGFobject {
         var sin_a = Math.sin(a_rad);
       
 
+        this.scene.pushMatrix();
+        this.scene.translate(0.0,1.5,0.0);
             // cylinder 4
           this.scene.pushMatrix();
           this.scene.translate(1.3,-0.7,0);
@@ -47,7 +49,7 @@ export class MyBirdBody extends CGFobject {
           this.cylinder.display();
           this.scene.popMatrix();
 
-         // cyliinder 5 
+         // cylinder 5 
           this.scene.pushMatrix();
           this.scene.translate(-1.1,-1.7,0);
           this.scene.rotate(-d_rad, 0,1,0);
@@ -69,6 +71,7 @@ export class MyBirdBody extends CGFobject {
           this.cylinder.display();
           this.scene.popMatrix();
 
+        this.scene.popMatrix();
 
     }
 }

@@ -37,6 +37,9 @@ export class MyBirdTail extends CGFobject {
         var cos_a = Math.cos(a_rad);
         var sin_a = Math.sin(a_rad);
 
+        this.scene.pushMatrix();
+        this.scene.translate(0.0,1.5,0.0);
+
          // prism tail
          this.scene.pushMatrix();
          this.scene.translate(-1.1,-1.7,0);
@@ -66,6 +69,8 @@ export class MyBirdTail extends CGFobject {
         this.scene.scale(0.8,2.0,1.0);
         this.scene.yellow.apply();
         this.triangle.display();
+        this.scene.popMatrix();
+
         this.scene.popMatrix();
     }
 }

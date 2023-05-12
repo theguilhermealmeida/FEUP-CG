@@ -52,7 +52,7 @@ export class MyScene extends CGFscene {
     this.unitCube = new MyUnitCube(this);
     this.trapeze = new MyTrapeze(this);
     this.trapezeSolid = new MyTrapezeSolid(this);
-    this.bird = new MyBird(this);
+    this.bird = new MyBird(this, 0, 0, 0, 3, 0);
     this.sphere = new MySphere(this, 30, 30, 1);
 
 
@@ -63,6 +63,11 @@ export class MyScene extends CGFscene {
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
+    this.speedFactor = 1;
+
+    this.turn = false;
+    this.move = false;
+
     this.displayPlane = false;
     this.displayPanorama = false;
     this.displayPrism = false;
@@ -78,6 +83,8 @@ export class MyScene extends CGFscene {
     this.displayTrapezeSolid = false;
     this.displayBird = true;
     this.displaySphere = false;
+
+    this.testShaders
 
     this.enableTextures(true);
 
@@ -115,6 +122,7 @@ export class MyScene extends CGFscene {
     this.yellowT = new CGFtexture(this, "images/yellow.png");
     this.yellow.setTexture(this.yellowT);
 
+    this.setUpdatePeriod(30);
   
   }
   initLights() {
@@ -139,6 +147,45 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
+
+
+  checkKeys(){
+    var text="Keys pressed: ";
+    var keysPressed=false;
+
+    if(this.gui.isKeyPressed("KeyW")){
+      text+= " W ";
+      this.move = true;
+      this.bird.accelerate(this.move);
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyS")) {
+      this.move = false;
+      this.bird.accelerate(this.move);
+      text+=" S ";
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyA")) {
+      this.turn = true;
+      this.bird.turn(this.turn);  
+      text+=" A ";
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyD")) {
+      this.turn = false;
+      this.bird.turn(this.turn);
+      text+=" D ";
+      keysPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyR")) {
+      text+=" R ";
+      this.bird.reset();
+      keysPressed=true;
+    }
+    if (keysPressed)
+      console.log(text);
+  }
+
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -215,7 +262,7 @@ export class MyScene extends CGFscene {
      
     if (this.displayBird) {
       this.pushMatrix();
-      this.translate(0,5,0);
+      this.scale(0.5,0.5,0.5);
       this.bird.display();
       this.popMatrix();
     }
@@ -227,5 +274,10 @@ export class MyScene extends CGFscene {
 
 
     // ---- END Primitive drawing section
+  }
+
+  update(t){
+    this.checkKeys();
+    this.bird.update(t);
   }
 }

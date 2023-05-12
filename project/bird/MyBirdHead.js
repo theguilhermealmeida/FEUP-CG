@@ -32,6 +32,8 @@ export class MyBirdHead extends CGFobject {
         var cos_a = Math.cos(a_rad);
         var sin_a = Math.sin(a_rad);
       
+        this.scene.pushMatrix();
+        this.scene.translate(0.0,1.5,0.0);
           // right eye
           this.scene.pushMatrix();
           this.scene.translate(3.2,0.5,0.4);
@@ -97,5 +99,6 @@ export class MyBirdHead extends CGFobject {
 
 
 
+        this.scene.popMatrix();
     }
 }
