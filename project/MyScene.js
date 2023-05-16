@@ -14,6 +14,7 @@ import { MyTrapeze} from "./MyTrapeze.js";
 import { MyTrapezeSolid} from "./MyTrapezeSolid.js";
 import { MyBird } from "./bird/MyBird.js";
 import { MySphere } from "./MySphere.js";
+import { MyTerrain } from "./MyTerrain.js";
 
 
 /**
@@ -52,16 +53,17 @@ export class MyScene extends CGFscene {
     this.unitCube = new MyUnitCube(this);
     this.trapeze = new MyTrapeze(this);
     this.trapezeSolid = new MyTrapezeSolid(this);
-    this.bird = new MyBird(this, 0, 0, 0, 3, 0);
+    this.bird = new MyBird(this, 0, 0, 0, 0, 0);
     this.sphere = new MySphere(this, 30, 30, 1);
+    this.terrain = new MyTerrain(this, 30);
 
 
 
-    this.objects = [this.plane, this.panorama, this.prism, this.diamond, this.parallelogram, this.quad, this.tangram, this.triangle, this.triangleBig, this.triangleSmall, this.unitCube, this.trapeze, this.bird, this.sphere];
-    this.objectIDs = { 'Plane': 0 , 'Panorama': 1, 'Prism': 2, 'Diamond' : 3, 'Parallelogram' : 4, 'Quad' : 5, 'Tangram' : 6, 'Triangle' : 7, 'TriangleBig' : 8, 'TriangleSmall' : 9, 'UnitCube' : 10 , 'Trapeze' : 11, 'Bird' : 12, 'Sphere' : 13} 
+    this.objects = [this.plane, this.panorama, this.prism, this.diamond, this.parallelogram, this.quad, this.tangram, this.triangle, this.triangleBig, this.triangleSmall, this.unitCube, this.trapeze, this.bird, this.sphere, this.terrain];
+    this.objectIDs = { 'Plane': 0 , 'Panorama': 1, 'Prism': 2, 'Diamond' : 3, 'Parallelogram' : 4, 'Quad' : 5, 'Tangram' : 6, 'Triangle' : 7, 'TriangleBig' : 8, 'TriangleSmall' : 9, 'UnitCube' : 10 , 'Trapeze' : 11, 'Bird' : 12, 'Sphere' : 13, 'Terrain' : 14};
     
     //Objects connected to MyInterface
-    this.displayAxis = true;
+    this.displayAxis = false;
     this.scaleFactor = 1;
     this.speedFactor = 1;
 
@@ -83,6 +85,7 @@ export class MyScene extends CGFscene {
     this.displayTrapezeSolid = false;
     this.displayBird = true;
     this.displaySphere = false;
+    this.displayTerrain = false;
 
     this.testShaders
 
@@ -259,10 +262,15 @@ export class MyScene extends CGFscene {
     if (this.displayTrapezeSolid) {
       this.trapezeSolid.display();
     }
+
+    if (this.displayTerrain) {
+      this.terrain.display();
+    }
      
     if (this.displayBird) {
       this.pushMatrix();
       this.scale(0.5,0.5,0.5);
+      this.translate(0,5,0);
       this.bird.display();
       this.popMatrix();
     }
@@ -273,7 +281,7 @@ export class MyScene extends CGFscene {
 
 
 
-    // ---- END Primitive drawing section
+
   }
 
   update(t){

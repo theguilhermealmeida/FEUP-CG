@@ -33,6 +33,7 @@ export class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'displayTrapezeSolid').name('Display Trapeze Solid');
         this.gui.add(this.scene, 'displayBird').name('Display Bird');
         this.gui.add(this.scene, 'displaySphere').name('Display Sphere');
+        this.gui.add(this.scene, 'displayTerrain').name('Display Terrain');
         //Checkbox element in GUI
 
         //Slider element in GUI

@@ -122,7 +122,6 @@ export class MyBird extends CGFobject {
         else 
           var angle = Math.sin((this.scene.speedFactor*this.newTime)/(1000/(2*Math.PI)) + Math.PI / 6)*0.35;
 
-        console.log(angle);
       
       
         this.scene.pushMatrix();
