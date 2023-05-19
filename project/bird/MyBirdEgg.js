@@ -15,8 +15,13 @@ export class MyBirdEgg extends CGFobject {
     this.vy;
     this.vz;
 
+    this.texCoords = [];
+
     this.sphere = new MySphere(scene, slices, stacks, 0, radius);
   }
+
+  
+
 
   display() {
     this.scene.pushMatrix();

@@ -62,7 +62,7 @@ export class MyScene extends CGFscene {
     this.trapeze = new MyTrapeze(this);
     this.trapezeSolid = new MyTrapezeSolid(this);
     this.bird = new MyBird(this, 0, 0, 0, 10, 0);
-    this.sphere = new MySphere(this, 30, 30, 1);
+    this.sphere = new MySphere(this, 30, 30, 0);
     this.terrain = new MyTerrain(this, 30);
     this.nest = new MyNest(this, 10, 5, -80, 4.5, -20, 4);
 
@@ -98,8 +98,15 @@ export class MyScene extends CGFscene {
 
     this.enableTextures(true);
 
+    this.panoramaC = new CGFappearance(this);
     this.texturePan = new CGFtexture(this, "images/panorama4.jpg");
+    this.panoramaC.setTexture(this.texturePan);
     this.panorama = new MyPanorama(this, this.texturePan);
+
+
+    this.earth = new CGFappearance(this);    
+    this.earthT = new CGFtexture(this, "images/earth.jpg");
+    this.earth.setTexture(this.earthT);
 
     this.texture = new CGFtexture(this, "images/terrain.jpg");
     this.appearance = new CGFappearance(this);
@@ -282,7 +289,6 @@ export class MyScene extends CGFscene {
     }
 
     if (this.displayPanorama) {
-      // this.sphereMaterial.apply();
       this.panorama.display();
     }
 
@@ -341,6 +347,7 @@ export class MyScene extends CGFscene {
     }
 
     if (this.displaySphere) {
+      this.earth.apply();
       this.sphere.display();
     }
 

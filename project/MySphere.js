@@ -40,11 +40,6 @@ export class MySphere extends CGFobject {
 				var z = Math.sin(beta) * Math.sin(alpha);
 
 				this.vertices.push(x * this.radius, y * this.radius, z * this.radius);
-				var s = j / this.slices;
-				var t = i / (2 * this.stacks); // Divide the stacks by 2 for the top and bottom hemispheres
-				if (t > 1) t = 1 - t; // Reverse t coordinate for the bottom hemisphere
-
-				this.texCoords.push(s, t);
 
 				if (this.view) {
 					var normal = [x, y, -z];
@@ -71,22 +66,28 @@ export class MySphere extends CGFobject {
 					else {
 						this.indices.push(a, b + 1, b);
 						this.indices.push(a, a + 1, b + 1);
+						
 					}
 				}
 			}
 		}
 
 
-		// var incS = 1.0 / this.slices;
-		// var incT = 1.0 / this.stacks;
+		var incS = 1.0 / this.slices;
+		var incT = 1.0 / this.stacks;
 
-		// for (let i = 0; i <= this.stacks; i++) {
-		// 	for (let j = 0; j <= this.slices; j++) {
-		// 		var s = j * incS;
-		// 		var t = i * incT;	
-		// 		this.texCoords.push(s, t);
-		// 	}
-		// }
+		for (let i = 0; i <= this.stacks; i++) {
+			for (let j = 0; j <= this.slices; j++) {
+				var s = j * incS;
+				var t = i * incT;	
+				if (this.view) {
+					this.texCoords.push(s, t);
+				}
+				else {
+					this.texCoords.push(1 - s, t);
+				}
+			}
+		}
 
 
 
