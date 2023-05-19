@@ -15,6 +15,8 @@ import { MyTrapezeSolid} from "./MyTrapezeSolid.js";
 import { MyBird } from "./bird/MyBird.js";
 import { MySphere } from "./MySphere.js";
 import { MyTerrain } from "./MyTerrain.js";
+import { MyBirdEgg } from "./bird/MyBirdEgg.js";
+import { MyNest } from "./MyNest.js";
 
 
 /**
@@ -39,6 +41,12 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+
+    this.numberOfEggs = 5;
+    this.eggY = 0.7;
+    this.eggs = [];
+    this.initEggs();
+
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
@@ -53,14 +61,13 @@ export class MyScene extends CGFscene {
     this.unitCube = new MyUnitCube(this);
     this.trapeze = new MyTrapeze(this);
     this.trapezeSolid = new MyTrapezeSolid(this);
-    this.bird = new MyBird(this, 0, 0, 0, 0, 0);
+    this.bird = new MyBird(this, 0, 0, 0, 10, 0);
     this.sphere = new MySphere(this, 30, 30, 1);
     this.terrain = new MyTerrain(this, 30);
-
-
+    this.nest = new MyNest(this, 10, 5, -80, 4.5, -20, 4);
 
     this.objects = [this.plane, this.panorama, this.prism, this.diamond, this.parallelogram, this.quad, this.tangram, this.triangle, this.triangleBig, this.triangleSmall, this.unitCube, this.trapeze, this.bird, this.sphere, this.terrain];
-    this.objectIDs = { 'Plane': 0 , 'Panorama': 1, 'Prism': 2, 'Diamond' : 3, 'Parallelogram' : 4, 'Quad' : 5, 'Tangram' : 6, 'Triangle' : 7, 'TriangleBig' : 8, 'TriangleSmall' : 9, 'UnitCube' : 10 , 'Trapeze' : 11, 'Bird' : 12, 'Sphere' : 13, 'Terrain' : 14};
+    this.objectIDs = { 'Plane': 0 , 'Panorama': 1, 'Prism': 2, 'Diamond' : 3, 'Parallelogram' : 4, 'Quad' : 5, 'Tangram' : 6, 'Triangle' : 7, 'TriangleBig' : 8, 'TriangleSmall' : 9, 'UnitCube' : 10 , 'Trapeze' : 11, 'Bird' : 12, 'Sphere' : 13, 'Terrain' : 14};  
     
     //Objects connected to MyInterface
     this.displayAxis = false;
@@ -85,7 +92,7 @@ export class MyScene extends CGFscene {
     this.displayTrapezeSolid = false;
     this.displayBird = true;
     this.displaySphere = false;
-    this.displayTerrain = false;
+    this.displayTerrain = true;
 
     this.testShaders
 
@@ -100,9 +107,9 @@ export class MyScene extends CGFscene {
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     this.brown = new CGFappearance(this);
-    this.brown.setAmbient(0.4, 0.4, 0.4, 1);
+    this.brown.setAmbient(0.5, 0.5, 0.5, 1);
     this.brown.setDiffuse(0.6, 0.6, 0.6, 1);
-    this.brown.setSpecular(0.1, 0.1, 0.1, 1);
+    this.brown.setSpecular(0.5, 0.5, 0.5, 1);
     this.brownTexture = new CGFtexture(this, "images/brown.png");
     this.brown.setTexture(this.brownTexture);
 
@@ -111,9 +118,9 @@ export class MyScene extends CGFscene {
     this.red.setTexture(this.redt);
 
     this.feather = new CGFappearance(this);
-    this.feather.setAmbient(0.4, 0.4, 0.4, 1);
+    this.feather.setAmbient(0.5, 0.5, 0.5, 1);
     this.feather.setDiffuse(0.6, 0.6, 0.6, 1);
-    this.feather.setSpecular(0.1, 0.1, 0.1, 1);
+    this.feather.setSpecular(0.5, 0.5, 0.5, 1);
     this.featherT = new CGFtexture(this, "images/feather2.png");
     this.feather.setTexture(this.featherT);
     
@@ -122,12 +129,58 @@ export class MyScene extends CGFscene {
     this.grey.setTexture(this.greyT);
 
     this.yellow = new CGFappearance(this);
+    this.yellow.setAmbient(0.4, 0.4, 0.4, 1);
+    this.yellow.setDiffuse(0.6, 0.6, 0.6, 1);
+    this.yellow.setSpecular(0.9, 0.9, 0.9, 1);
     this.yellowT = new CGFtexture(this, "images/yellow.png");
     this.yellow.setTexture(this.yellowT);
+
+    this.eggC = new CGFappearance(this);
+    this.eggC.setAmbient(0.4, 0.4, 0.4, 1);
+    this.eggC.setDiffuse(0.6, 0.6, 0.6, 1);
+    this.eggC.setSpecular(0.9, 0.9, 0.9, 1);
+    this.eggT = new CGFtexture(this, "images/eggtex.png");
+    this.eggC.setTexture(this.eggT);
+
+    this.nestC = new CGFappearance(this);
+    this.nestT = new CGFtexture(this, "images/nest.png");
+    this.nestC.setTexture(this.nestT);
 
     this.setUpdatePeriod(30);
   
   }
+
+  randomInt(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  initEggs() {
+
+    for (let i = 0; i < this.numberOfEggs; i++) {
+      var x = this.randomInt(85, 110);
+      var z = this.randomInt(-30, 20);
+
+      const egg = new MyBirdEgg(this, 20, 20, 1.25, x, this.eggY, z, 0.7);
+      this.eggs.push(egg);
+    }
+  }
+
+  resetEggs() {
+    this.eggs = [];
+    this.initEggs();
+  }
+
+  checkEggNestCollision() {
+    for (const egg of this.eggs) {
+      console.log(egg.x, egg.z, this.nest.x, this.nest.z, this.bird.X, this.bird.Z);
+      if (egg.x > this.nest.x - 5 && egg.x < this.nest.x + 5 && egg.z > this.nest.z - 5 && egg.z < this.nest.z + 5) {
+        this.nest.addEgg(egg);
+        this.eggs.splice(this.eggs.indexOf(egg), 1);
+      }
+    }
+  }
+
+
   initLights() {
     this.lights[0].setPosition(5, 5, 5, 1);
     this.lights[0].setAmbient(0.7, 0.7, 0.7, 1.0);
@@ -183,8 +236,22 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyR")) {
       text+=" R ";
       this.bird.reset();
+      this.resetEggs();
+      this.nest.reset();
       keysPressed=true;
     }
+    if (this.gui.isKeyPressed("KeyP")) {
+      text+=" P ";
+      this.bird.down();
+      keysPressed=true;
+    }
+
+    if (this.gui.isKeyPressed("KeyO")) {
+      text+=" O ";
+      this.bird.drop();
+      keysPressed=true;
+    }
+        
     if (keysPressed)
       console.log(text);
   }
@@ -269,8 +336,6 @@ export class MyScene extends CGFscene {
      
     if (this.displayBird) {
       this.pushMatrix();
-      this.scale(0.5,0.5,0.5);
-      this.translate(0,5,0);
       this.bird.display();
       this.popMatrix();
     }
@@ -279,7 +344,11 @@ export class MyScene extends CGFscene {
       this.sphere.display();
     }
 
+    for (const egg of this.eggs) {
+      egg.display();
+    }
 
+    this.nest.display();
 
 
   }

@@ -1,20 +1,23 @@
-import {CGFobject} from '../lib/CGF.js';
+import { CGFobject } from '../lib/CGF.js';
 /**
  * MySphere 
  * @constructor
  * @param scene - Reference to MyScene object
  */
 export class MySphere extends CGFobject {
-	constructor(scene, slices, stacks, view) {
-                super(scene);
+	constructor(scene, slices, stacks, view, radius) {
+		super(scene);
 
-                this.slices = slices;
-                this.stacks = stacks;
-                this.view = view;
+		this.slices = slices;
+		this.stacks = stacks;
+		this.view = view;
+		this.texCoords = [];
+		if (radius == null) this.radius = 200;
+		else this.radius = radius;
 
-				this.initBuffers();
-}
-	
+		this.initBuffers();
+	}
+
 	initBuffers() {
 
 
@@ -25,7 +28,7 @@ export class MySphere extends CGFobject {
 
 		var angle_alpha = 2 * Math.PI / this.slices;
 		var angle_beta = Math.PI / this.stacks;
-		
+
 
 		for (let i = 0; i <= this.stacks; i++) {
 			var beta = angle_beta * i;
@@ -35,9 +38,13 @@ export class MySphere extends CGFobject {
 				var x = Math.sin(beta) * Math.cos(alpha);
 				var y = Math.cos(beta);
 				var z = Math.sin(beta) * Math.sin(alpha);
-				var radius = 200;
 
-				this.vertices.push(x*radius, y*radius, z*radius);
+				this.vertices.push(x * this.radius, y * this.radius, z * this.radius);
+				var s = j / this.slices;
+				var t = i / (2 * this.stacks); // Divide the stacks by 2 for the top and bottom hemispheres
+				if (t > 1) t = 1 - t; // Reverse t coordinate for the bottom hemisphere
+
+				this.texCoords.push(s, t);
 
 				if (this.view) {
 					var normal = [x, y, -z];
@@ -59,32 +66,29 @@ export class MySphere extends CGFobject {
 
 					if (this.view) {
 						this.indices.push(b, b + 1, a);
-						this.indices.push(b+1, a + 1, a);
+						this.indices.push(b + 1, a + 1, a);
 					}
 					else {
 						this.indices.push(a, b + 1, b);
-						this.indices.push(a, a + 1, b+1);
+						this.indices.push(a, a + 1, b + 1);
 					}
 				}
 			}
 		}
 
-		var incS = 1.0 / this.slices;
-		var incT = 1.0 / this.stacks;
 
-		for (let i = 0; i <= this.stacks; i++) {
-			for (let j = 0; j <= this.slices; j++) {
-				var s = j * incS;
-				var t = i * incT;
-				if (this.view) {
-					this.texCoords.push(s, t);
-				}
-				else {
-					this.texCoords.push(-s, t);
-				}
-			}
-		}
-	
+		// var incS = 1.0 / this.slices;
+		// var incT = 1.0 / this.stacks;
+
+		// for (let i = 0; i <= this.stacks; i++) {
+		// 	for (let j = 0; j <= this.slices; j++) {
+		// 		var s = j * incS;
+		// 		var t = i * incT;	
+		// 		this.texCoords.push(s, t);
+		// 	}
+		// }
+
+
 
 
 		//The defined indices (and corresponding vertices)

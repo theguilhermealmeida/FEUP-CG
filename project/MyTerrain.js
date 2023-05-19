@@ -18,10 +18,6 @@ export class MyTerrain extends CGFobject {
 		this.plane = new MyPlane(scene, 20);
 
 		this.mountainMaterial = new CGFappearance(this.scene);
-        this.mountainMaterial.setAmbient(0.3, 0.3, 0.3, 1);
-        this.mountainMaterial.setDiffuse(0.7, 0.7, 0.7, 1);
-        this.mountainMaterial.setSpecular(0.0, 0.0, 0.0, 1);
-        this.mountainMaterial.setShininess(120);
 
 		this.mountainTexture = new CGFtexture(this.scene, "images/terrain.jpg");
         this.mountainMaterial.setTexture(this.mountainTexture);
