@@ -1,4 +1,3 @@
-import { CGFobject, CGFtexture } from '../../lib/CGF.js';
 import { MyBillboard } from '../MyBillboard.js';
 /**
  * MyTreeGroupPatch

@@ -1,4 +1,4 @@
-import { CGFtexture ,CGFobject, CGFappearance } from "../../lib/CGF.js";
+import { CGFobject } from "../../lib/CGF.js";
 import { MyCylinder } from "../MyCylinder.js";
 import { MyPrism } from "../MyPrism.js";
 import { MySphere } from "../MySphere.js";
@@ -18,19 +18,13 @@ export class MyBirdHead extends CGFobject {
        
 	}
     
-    
-
 
 	display(){
         
 
         var deg2rad=Math.PI/180.0;
         var a_rad=45.0*deg2rad;
-        var b_rad=180.0*deg2rad;
-        var c_rad=135.0*deg2rad;
         var d_rad = 90.0*deg2rad;
-        var cos_a = Math.cos(a_rad);
-        var sin_a = Math.sin(a_rad);
       
         this.scene.pushMatrix();
         this.scene.translate(0.0,1.5,0.0);

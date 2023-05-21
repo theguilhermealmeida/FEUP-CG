@@ -1,10 +1,4 @@
-import { CGFobject, CGFappearance, CGFtexture } from "../../lib/CGF.js";
-// import { MyDiamond } from "./MyDiamond.js";
-// import {MyTriangle} from "./MyTriangle.js";
-// import {MyParallelogram} from "./MyParallelogram.js";
-// import {MyTriangleBig} from "./MyTriangleBig.js";
-// import {MyTriangleSmall} from "./MyTriangleSmall.js";
-// import { MyPrism } from "../MyPrism.js";
+import { CGFobject } from "../../lib/CGF.js";
 import { MyBirdHead } from "./MyBirdHead.js";
 import { MyBirdBody } from "./MyBirdBody.js";
 import { MyBirdTail } from "./MyBirdTail.js";
@@ -61,16 +55,16 @@ export class MyBird extends CGFobject {
 
   drop() {
     if (this.eggHeld) {
-    this.initialVx = Math.cos(this.orientation) * (this.speed / 500) * this.deltaTime * this.scene.speedFactor;
-    this.initialVy = 0;
-    this.initialVz = -Math.sin(this.orientation) * (this.speed / 500) * this.deltaTime * this.scene.speedFactor;
-    this.egg.vx = this.initialVx;
-    this.egg.vy = this.initialVy;
-    this.egg.vz = this.initialVz;
-    this.egg.x = this.X;
-    this.egg.y = this.Y - this.eggYonBird;
-    this.egg.z = this.Z;
-    this.dropEgg = true;
+      this.initialVx = Math.cos(this.orientation) * (this.speed / 500) * this.deltaTime * this.scene.speedFactor;
+      this.initialVy = 0;
+      this.initialVz = -Math.sin(this.orientation) * (this.speed / 500) * this.deltaTime * this.scene.speedFactor;
+      this.egg.vx = this.initialVx;
+      this.egg.vy = this.initialVy;
+      this.egg.vz = this.initialVz;
+      this.egg.x = this.X;
+      this.egg.y = this.Y - this.eggYonBird;
+      this.egg.z = this.Z;
+      this.dropEgg = true;
     }
   }
   down() {

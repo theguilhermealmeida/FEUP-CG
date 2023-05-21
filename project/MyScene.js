@@ -1,17 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyPlane } from "./MyPlane.js";
 import { MyPanorama } from "./MyPanorama.js";
-import { MyPrism } from "./MyPrism.js";
-import { MyDiamond } from "./MyDiamond.js";
-import { MyParallelogram } from "./MyParallelogram.js";
-import { MyQuad } from "./MyQuad.js";
-import { MyTangram } from "./MyTangram.js";
-import { MyTriangle } from "./MyTriangle.js";
-import { MyTriangleBig } from "./MyTriangleBig.js";
-import { MyTriangleSmall } from "./MyTriangleSmall.js";
-import { MyUnitCube } from "./MyUnitCube.js";
-import { MyTrapeze } from "./MyTrapeze.js";
-import { MyTrapezeSolid } from "./MyTrapezeSolid.js";
 import { MyBird } from "./bird/MyBird.js";
 import { MySphere } from "./MySphere.js";
 import { MyTerrain } from "./MyTerrain.js";
@@ -54,26 +42,14 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.plane = new MyPlane(this, 30);
-    this.prism = new MyPrism(this, 5, 5);
-    this.diamond = new MyDiamond(this);
-    this.parallelogram = new MyParallelogram(this);
-    this.quad = new MyQuad(this);
-    this.tangram = new MyTangram(this);
-    this.triangle = new MyTriangle(this);
-    this.triangleBig = new MyTriangleBig(this);
-    this.triangleSmall = new MyTriangleSmall(this);
-    this.unitCube = new MyUnitCube(this);
-    this.trapeze = new MyTrapeze(this);
-    this.trapezeSolid = new MyTrapezeSolid(this);
     this.bird = new MyBird(this, 0, 0, 0, 10, 0);
     this.sphere = new MySphere(this, 30, 30, 0);
     this.terrain = new MyTerrain(this, 30);
     this.nest = new MyNest(this, 10, 5, -80, 4.5, -20, 4);
     this.billboard = new MyBillboard(this, 0, 0, 0);
 
-    this.objects = [this.plane, this.panorama, this.prism, this.diamond, this.parallelogram, this.quad, this.tangram, this.triangle, this.triangleBig, this.triangleSmall, this.unitCube, this.trapeze, this.bird, this.sphere, this.terrain];
-    this.objectIDs = { 'Plane': 0, 'Panorama': 1, 'Prism': 2, 'Diamond': 3, 'Parallelogram': 4, 'Quad': 5, 'Tangram': 6, 'Triangle': 7, 'TriangleBig': 8, 'TriangleSmall': 9, 'UnitCube': 10, 'Trapeze': 11, 'Bird': 12, 'Sphere': 13, 'Terrain': 14 };
+    this.objects = [this.plane, this.panorama, this.bird, this.sphere, this.terrain];
+    this.objectIDs = { 'Plane': 0, 'Panorama': 1, 'Bird': 2, 'Sphere': 3, 'Terrain': 4 };
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -85,17 +61,6 @@ export class MyScene extends CGFscene {
 
     this.displayPlane = false;
     this.displayPanorama = false;
-    this.displayPrism = false;
-    this.displayDiamond = false;
-    this.displayParallelogram = false;
-    this.displayQuad = false;
-    this.displayTangram = false;
-    this.displayTriangle = false;
-    this.displayTriangleBig = false;
-    this.displayTriangleSmall = false;
-    this.displayUnitCube = false;
-    this.displayTrapeze = false;
-    this.displayTrapezeSolid = false;
     this.displayBird = false;
     this.displaySphere = false;
     this.displayTerrain = true;
@@ -312,48 +277,9 @@ export class MyScene extends CGFscene {
       this.panorama.display();
     }
 
-    if (this.displayPrism) {
-      this.prism.display();
-    }
-
-    if (this.displayDiamond) {
-      this.diamond.display();
-    }
-
-    if (this.displayParallelogram) {
-      this.parallelogram.display();
-    }
-
-    if (this.displayQuad) {
-      this.quad.display();
-    }
-
-    if (this.displayTangram) {
-      this.tangram.display();
-    }
-
-    if (this.displayTriangle) {
-      this.triangle.display();
-    }
-
-    if (this.displayTriangleBig) {
-      this.triangleBig.display();
-    }
-
-    if (this.displayTriangleSmall) {
-      this.triangleSmall.display();
-    }
-
-    if (this.displayUnitCube) {
-      this.unitCube.display();
-    }
-
-    if (this.displayTrapeze) {
-      this.trapeze.display();
-    }
-
-    if (this.displayTrapezeSolid) {
-      this.trapezeSolid.display();
+    if (this.displaySphere) {
+      this.earth.apply();
+      this.sphere.display();
     }
 
     if (this.displayTerrain) {
@@ -361,8 +287,22 @@ export class MyScene extends CGFscene {
       for (const egg of this.eggs) {
         egg.display();
       }
-
       this.nest.display();
+      this.pushMatrix();
+        this.translate(-40, this.treeScale / 2, 60);
+        this.treeGroupPatch.display();
+      this.popMatrix();
+
+
+      this.pushMatrix();
+        this.translate(0, this.treeScale / 2, 30);
+        this.treeRowPatch.display();
+      this.popMatrix();
+      
+      this.pushMatrix();
+        this.translate(70, this.treeScale / 2, 30);
+        this.treeRowPatch.display();
+      this.popMatrix();
     }
 
     if (this.displayBird) {
@@ -371,26 +311,6 @@ export class MyScene extends CGFscene {
       this.popMatrix();
     }
 
-    if (this.displaySphere) {
-      this.earth.apply();
-      this.sphere.display();
-    }
-
-    this.pushMatrix();
-      this.translate(-40, this.treeScale / 2, 60);
-      this.treeGroupPatch.display();
-    this.popMatrix();
-
-
-    this.pushMatrix();
-      this.translate(0, this.treeScale / 2, 30);
-      this.treeRowPatch.display();
-    this.popMatrix();
-    
-    this.pushMatrix();
-      this.translate(70, this.treeScale / 2, 30);
-      this.treeRowPatch.display();
-    this.popMatrix();
     
   }
 
