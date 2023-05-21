@@ -159,9 +159,9 @@ export class MyBird extends CGFobject {
     if (this.dropEgg) {
       this.eggHeld = false;
       this.egg.vy -= this.deltaTime * (1 / 100); 
-      this.egg.x += this.egg.vx * this.deltaTime * (1 / 100);
-      this.egg.y += this.egg.vy * this.deltaTime * (1 / 100);
-      this.egg.z += this.egg.vz * this.deltaTime * (1 / 100);
+      this.egg.x += this.egg.vx * this.deltaTime * this.scene.speedFactor * (1 / 80);
+      this.egg.y += this.egg.vy * this.deltaTime * this.scene.speedFactor * (1 / 100);
+      this.egg.z += this.egg.vz * this.deltaTime * this.scene.speedFactor * (1 / 80);
       
       if (this.egg.y < 0) { 
         this.egg.y = 0;
@@ -211,10 +211,14 @@ export class MyBird extends CGFobject {
   display() {
 
 
-    if (this.speed != 0)
-      var angle = Math.sin((2 * this.newTime * this.scene.speedFactor) / (1000 / (2 * Math.PI)) + Math.PI / 6) * 0.35;
-    else
-      var angle = Math.sin((this.scene.speedFactor * this.newTime) / (1000 / (2 * Math.PI)) + Math.PI / 6) * 0.35;
+    if (this.speed != 0) {
+      var wingMotion = Math.sin((2 * this.newTime * this.scene.speedFactor) / (1000 / (2 * Math.PI)) + Math.PI / 6) * 0.35;
+      var bodyMotion = Math.sin(2*this.scene.speedFactor * this.newTime / (1000 / (2 * Math.PI))) * 0.25;
+    }
+    else {
+      var wingMotion = Math.sin((this.scene.speedFactor * this.newTime) / (1000 / (2 * Math.PI)) + Math.PI / 6) * 0.35;
+      var bodyMotion = Math.sin(this.scene.speedFactor * this.newTime / (1000 / (2 * Math.PI))) * 0.25;
+    }
 
     if (this.dropEgg) { 
       this.scene.pushMatrix();
@@ -241,37 +245,37 @@ export class MyBird extends CGFobject {
 
 
     this.scene.pushMatrix();
-    this.scene.translate(0, Math.sin(this.scene.speedFactor * this.newTime / (1000 / (2 * Math.PI))) * 0.25, 0);
+    this.scene.translate(0, bodyMotion, 0);
     this.birdHead.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(0, Math.sin(this.scene.speedFactor * this.newTime / (1000 / (2 * Math.PI))) * 0.25, 0);
+    this.scene.translate(0, bodyMotion, 0);
     this.birdBody.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(0, Math.sin(this.scene.speedFactor * this.newTime / (1000 / (2 * Math.PI))) * 0.25, 0);
+    this.scene.translate(0, bodyMotion, 0);
     this.birdTail.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.rotate(angle, 1, 0, 0);
+    this.scene.rotate(wingMotion, 1, 0, 0);
     this.birdWingsRA.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.rotate(angle, 1, 0, 0);
+    this.scene.rotate(wingMotion, 1, 0, 0);
     this.birdWingsRB.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.rotate(-angle, 1, 0, 0);
+    this.scene.rotate(-wingMotion, 1, 0, 0);
     this.birdWingsLA.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.rotate(-angle, 1, 0, 0);
+    this.scene.rotate(-wingMotion, 1, 0, 0);
     this.birdWingsLB.display();
     this.scene.popMatrix();
 
