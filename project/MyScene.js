@@ -32,17 +32,21 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
-
+    // local variables
     this.numberOfEggs = 5;
     this.eggY = 0.7;
     this.eggs = [];
     this.initEggs();
 
+    this.birdHeight = 10;
     this.treeScale = 12;
+
+    this.turn = false;
+    this.move = false;
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.bird = new MyBird(this, 0, 0, 0, 10, 0);
+    this.bird = new MyBird(this, 0, 0, 0, this.birdHeight, 0);
     this.sphere = new MySphere(this, 30, 30, 0);
     this.terrain = new MyTerrain(this, 30);
     this.nest = new MyNest(this, 10, 5, -80, 4.5, -20, 4);
@@ -56,15 +60,13 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
     this.speedFactor = 1;
 
-    this.turn = false;
-    this.move = false;
-
-    this.displayPlane = false;
     this.displayPanorama = false;
     this.displayBird = false;
     this.displaySphere = false;
-    this.displayTerrain = true;
+    this.displayTerrain = false;
 
+
+    // textures and materials
     this.testShaders
 
     this.enableTextures(true);
